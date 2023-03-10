@@ -9,12 +9,15 @@ use TablePager;
 
 class ManageWikiFlaggedWikiPager extends TablePager {
 	public function __construct( $page ) {
+		if ( MediaWikiServices::getInstance()->getPermissionManager()->userHasRight( $this->getContext()->getUser(), 'managewiki-seeflagged' ) ) {
+
 		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'managewiki' );
 		$this->mDb = MediaWikiServices::getInstance()->getDBLoadBalancerFactory()
 			->getMainLB( $config->get( 'CreateWikiDatabase' ) )
 			->getMaintenanceConnectionRef( DB_REPLICA, [], $config->get( 'CreateWikiDatabase' ) );
 
 		parent::__construct( $page->getContext(), $page->getLinkRenderer() );
+		}
 	}
 
 	public function getFieldNames() {
