@@ -78,7 +78,8 @@ class ManageWikiFormFactoryBuilder {
 		if ( $ceMW && ( $config->get( 'DBname' ) == $config->get( 'CreateWikiGlobalWiki' ) ) && ( $wiki->getDBname() !== $config->get( 'CreateWikiGlobalWiki' ) ) ) {
 			$mwActions = [
 				( $wiki->isDeleted() ) ? 'undelete' : 'delete',
-				( $wiki->isLocked() ) ? 'unlock' : 'lock'
+				( $wiki->isLocked() ) ? 'unlock' : 'lock',
+				( $wiki->isFlagged() ) ? 'notflagged' : 'flagged'
 			];
 
 			foreach ( $mwActions as $mwAction ) {
