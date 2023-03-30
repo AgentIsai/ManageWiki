@@ -9,15 +9,12 @@ use TablePager;
 
 class ManageWikiFlaggedWikiPager extends TablePager {
 	public function __construct( $page ) {
-		if ( MediaWikiServices::getInstance()->getPermissionManager()->userHasRight( $this->getContext()->getUser(), 'managewiki-seeflagged' ) ) {
-
 		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'managewiki' );
 		$this->mDb = MediaWikiServices::getInstance()->getDBLoadBalancerFactory()
 			->getMainLB( $config->get( 'CreateWikiDatabase' ) )
 			->getMaintenanceConnectionRef( DB_REPLICA, [], $config->get( 'CreateWikiDatabase' ) );
 
 		parent::__construct( $page->getContext(), $page->getLinkRenderer() );
-		}
 	}
 
 	public function getFieldNames() {
@@ -27,7 +24,7 @@ class ManageWikiFlaggedWikiPager extends TablePager {
 			'wiki_dbname' => 'managewiki-label-dbname',
 			'wiki_creation' => 'managewiki-label-creationdate',
 			'wiki_deleted_timestamp' => 'managewiki-label-deletiondate',
-			'wiki_deleted' => 'managewiki-label-undeletewiki'
+			'wiki_deleted' => 'managewiki-label-unflagwiki'
 		];
 
 		foreach ( $headers as &$msg ) {
@@ -51,7 +48,7 @@ class ManageWikiFlaggedWikiPager extends TablePager {
 				$formatted = wfTimestamp( TS_RFC2822, (int)$row->wiki_deleted_timestamp );
 				break;
 			case 'wiki_deleted':
-				$formatted = Linker::makeExternalLink( SpecialPage::getTitleFor( 'ManageWiki' )->getFullURL() . '/core/' . $row->wiki_dbname, $this->msg( 'managewiki-label-goto' )->text() );
+				$formatted = Linker::makeExternalLink( SpecialPage::getTitleFor( 'ManageWiki' )->getFullURL() . '/core/' . $row->wiki_dbname, $this->msg( 'managewiki-label-unflag' )->text() );
 				break;
 			default:
 				$formatted = "Unable to format $name";
