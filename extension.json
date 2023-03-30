@@ -33,6 +33,7 @@
 	},
 	"SpecialPages": {
 		"DeletedWikis": "Miraheze\\ManageWiki\\Specials\\SpecialDeletedWikis",
+		"FlaggedWikis": "Miraheze\\ManageWiki\\Specials\\SpecialFlaggedWikis",
 		"ManageWiki": "Miraheze\\ManageWiki\\Specials\\SpecialManageWiki",
 		"ManageWikiDefaultPermissions": "Miraheze\\ManageWiki\\Specials\\SpecialManageWikiDefaultPermissions"
 	},
