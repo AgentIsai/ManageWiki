@@ -859,7 +859,9 @@ class ManageWikiFormFactoryBuilder {
 			'delete',
 			'undelete',
 			'lock',
-			'unlock'
+			'unlock',
+			'flag',
+			'unflag'
 		];
 
 		foreach ( $mwActions as $mwAction ) {
