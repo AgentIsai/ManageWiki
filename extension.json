@@ -26,7 +26,8 @@
 	"AvailableRights": [
 		"managewiki",
 		"managewiki-editdefault",
-		"managewiki-restricted"
+		"managewiki-restricted",
+		"managewiki-seeflagged"
 	],
 	"DefaultUserOptions": {
 		"managewikisidebar": 0
