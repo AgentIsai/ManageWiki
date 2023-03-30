@@ -7,10 +7,11 @@ use SpecialPage;
 
 class SpecialFlaggedWikis extends SpecialPage {
 	public function __construct() {
-		parent::__construct( 'FlaggedWikis' );
+		parent::__construct( 'FlaggedWikis',  'managewiki-flag' );
 	}
 
 	public function execute( $par ) {
+		parent::execute( $par );
 		$this->setHeaders();
 		$this->outputHeader();
 
