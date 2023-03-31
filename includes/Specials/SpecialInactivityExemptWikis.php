@@ -3,9 +3,9 @@
 namespace Miraheze\ManageWiki\Specials;
 
 use Miraheze\ManageWiki\Helpers\ManageWikiInactivityExemptWikiPager;
-use SpecialPage;
+use IncludableSpecialPage;
 
-class SpecialInactivityExemptWikis extends SpecialPage {
+class SpecialInactivityExemptWikis extends IncludableSpecialPage {
 	public function __construct() {
 		parent::__construct( 'InactivityExemptWikis' );
 	}
