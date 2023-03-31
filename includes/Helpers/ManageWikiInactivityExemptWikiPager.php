@@ -6,8 +6,9 @@ use Linker;
 use MediaWiki\MediaWikiServices;
 use SpecialPage;
 use TablePager;
+use User;
 
-class ManageWikiInactivityExemptWikiPager extends TablePager {
+class ManageWikiInactiveExemptWikiPager extends TablePager {
 	public function __construct( $page ) {
 		$config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'managewiki' );
 		$this->mDb = MediaWikiServices::getInstance()->getDBLoadBalancerFactory()
@@ -22,10 +23,10 @@ class ManageWikiInactivityExemptWikiPager extends TablePager {
 
 		$headers = [
 			'wiki_dbname' => 'managewiki-label-dbname',
-			'wiki_creation' => 'managewiki-label-creationdate',
-      'wiki_inactive_exempt_reason' => 'managewiki-label-inactiveexemptreason',
-			'wiki_deleted_timestamp' => 'managewiki-label-deletiondate',
-			'wiki_deleted' => 'managewiki-label-undeletewiki'
+			'wiki_inactive_exempt_timestamp' => 'managewiki-label-inactiveexemptdate',
+			'wiki_inactive_exempt_granter' => 'managewiki-label-inactiveexemptgranter',
+      			'wiki_inactive_exempt_reason' => 'managewiki-label-inactiveexemptreason',
+			'wiki_inactive_exempt' => 'managewiki-label-changesettings'
 		];
 
 		foreach ( $headers as &$msg ) {
@@ -37,21 +38,22 @@ class ManageWikiInactivityExemptWikiPager extends TablePager {
 
 	public function formatValue( $name, $value ) {
 		$row = $this->mCurrentRow;
+		//$user = new User::UserFactory;
 
 		switch ( $name ) {
 			case 'wiki_dbname':
 				$formatted = $row->wiki_dbname;
 				break;
-			case 'wiki_creation':
-				$formatted = wfTimestamp( TS_RFC2822, (int)$row->wiki_creation );
+			case 'wiki_inactive_exempt_timestamp':
+				$formatted = wfTimestamp( TS_RFC2822, (int)$row->wiki_inactive_exempt_timestamp );
 				break;
-      case 'wiki_inactive_exempt_reason':
-        $formatted = $row->wiki_inactive_exempt_reason;
-        break;
-			case 'wiki_deleted_timestamp':
-				$formatted = wfTimestamp( TS_RFC2822, (int)$row->wiki_deleted_timestamp );
+			case 'wiki_inactive_exempt_granter':
+				$formatted = User::newFromId( $row->wiki_inactive_exempt_granter )->getName();
 				break;
-			case 'wiki_deleted':
+		      case 'wiki_inactive_exempt_reason':
+        			$formatted = $row->wiki_inactive_exempt_reason;
+        			break;
+			case 'wiki_inactive_exempt':
 				$formatted = Linker::makeExternalLink( SpecialPage::getTitleFor( 'ManageWiki' )->getFullURL() . '/core/' . $row->wiki_dbname, $this->msg( 'managewiki-label-goto' )->text() );
 				break;
 			default:
@@ -68,10 +70,10 @@ class ManageWikiInactivityExemptWikiPager extends TablePager {
 			],
 			'fields' => [
 				'wiki_dbname',
-				'wiki_creation',
-        'wiki_inactive_exempt_reason',
-				'wiki_deleted',
-				'wiki_deleted_timestamp'
+				'wiki_inactive_exempt_timestamp',
+				'wiki_inactive_exempt_granter',
+			        'wiki_inactive_exempt_reason',
+				'wiki_inactive_exempt',
 			],
 			'conds' => [
 				'wiki_inactive_exempt' => 1
